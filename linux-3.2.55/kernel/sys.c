@@ -1945,34 +1945,37 @@ int orderly_poweroff(bool force)
 }
 EXPORT_SYMBOL_GPL(orderly_poweroff);
 
-SYSCALL_DEFINE1(cs456, int, diff)
+SYSCALL_DEFINE0(cs456)
 {
 	// declare task structs for current (c) and parent (p) processes
-	struct task_struct *c, *p;
-	c = current;
-	p = c->parent;
+	// struct task_struct *c, *p;
+	// c = current;
+	// p = c->parent;
 
 	// get the pwds for both
 	const struct path *c_pwd, *p_pwd;
 
-	c_pwd = &c->fs->pwd;
-	p_pwd = &p->fs->pwd;
+	c_pwd = &current->fs->pwd;
+	p_pwd = &current->parent->fs->pwd;
 
 	// declare char buffers to store the pwd strings for both
 	char c_buff[4096];
 	char p_buff[4096];
 
 	// use d_path to convert the paths to strings
-	char *c_pwd_string, *p_pwd_string;
-	c_pwd_string = d_path(c_pwd, c_buff, 4096);
-	p_pwd_string = d_path(p_pwd, p_buff, 4096);
+	char *c_pwd_string = d_path(c_pwd, c_buff, 4096);
+	char *p_pwd_string = d_path(p_pwd, p_buff, 4096);
 
 	// normal print statemetn
 	printk("CS456 system call has run!\n");
 
+	// for testing purposes
+	printk("Current pwd: %s\n", c_pwd_string);
+	printk("Parent pwd: %s\n", p_pwd_string);
+
 	// conditional print statement
-	if((strlen(c_pwd_string) - strlen(p_pwd_string)) == diff) {
-		printk("YOU'RE SO SMART! GET OFF THE COMPUTER AND GIVE YOURSELF A COOKIE!\n");
-	}
+	//if((strlen(*c_pwd_string) - strlen(*p_pwd_string)) == diff) {
+	//	printk("YOU'RE SO SMART! GET OFF THE COMPUTER AND GIVE YOURSELF A COOKIE!\n");
+	//}
 	return 0;
 }
