@@ -1953,16 +1953,19 @@ SYSCALL_DEFINE1(cs456, int, diff)
 	p = c->parent;
 
 	// get the pwds for both
-	struct path *c_pwd = c->fs->pwd;
-	struct path *p_pwd = p->fs->pwd;
+	const struct path *c_pwd, *p_pwd;
+
+	c_pwd = &c->fs->pwd;
+	p_pwd = &p->fs->pwd;
 
 	// declare char buffers to store the pwd strings for both
 	char c_buff[4096];
 	char p_buff[4096];
 
 	// use d_path to convert the paths to strings
-	char *c_pwd_string = d_path(c_pwd, c_buff, 4096);
-	char *p_pwd_string = d_path(p_pwd, p_buff, 4096);
+	char *c_pwd_string, *p_pwd_string;
+	c_pwd_string = d_path(c_pwd, c_buff, 4096);
+	p_pwd_string = d_path(p_pwd, p_buff, 4096);
 
 	// normal print statemetn
 	printk("CS456 system call has run!\n");
