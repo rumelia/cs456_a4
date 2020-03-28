@@ -1945,7 +1945,7 @@ int orderly_poweroff(bool force)
 }
 EXPORT_SYMBOL_GPL(orderly_poweroff);
 
-SYSCALL_DEFINE0(cs456)
+SYSCALL_DEFINE1(cs456, int, diff)
 {
 	// declare task structs for current (c) and parent (p) processes
 	// struct task_struct *c, *p;
@@ -1970,12 +1970,12 @@ SYSCALL_DEFINE0(cs456)
 	printk("CS456 system call has run!\n");
 
 	// for testing purposes
-	printk("Current pwd: %s\n", c_pwd_string);
-	printk("Parent pwd: %s\n", p_pwd_string);
+	// printk("Current pwd: %s\n", c_pwd_string);
+	// printk("Parent pwd: %s\n", p_pwd_string);
 
 	// conditional print statement
-	//if((strlen(*c_pwd_string) - strlen(*p_pwd_string)) == diff) {
-	//	printk("YOU'RE SO SMART! GET OFF THE COMPUTER AND GIVE YOURSELF A COOKIE!\n");
-	//}
+	if((strlen(c_pwd_string) - strlen(p_pwd_string)) == diff) {
+		printk("YOU'RE SO SMART! GET OFF THE COMPUTER AND GIVE YOURSELF A COOKIE!\n");
+	}
 	return 0;
 }
