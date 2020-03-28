@@ -1945,8 +1945,31 @@ int orderly_poweroff(bool force)
 }
 EXPORT_SYMBOL_GPL(orderly_poweroff);
 
-SYSCALL_DEFINE0(cs456)
+SYSCALL_DEFINE1(cs456, int, diff)
 {
-	printk("cs456 system call!\n");
+	// declare task structs for current (c) and parent (p) processes
+	struct task_struct *c, *p;
+	c = current;
+	p = c->parent;
+
+	// get the pwds for both
+	struct path *c_pwd = c->fs->pwd;
+	struct path *p_pwd = p->fs->pwd;
+
+	// declare char buffers to store the pwd strings for both
+	char c_buff[4096];
+	char p_buff[4096];
+
+	// use d_path to convert the paths to strings
+	char *c_pwd_string = d_path(c_pwd, c_buff, 4096);
+	char *p_pwd_string = d_path(p_pwd, p_buff, 4096);
+
+	// normal print statemetn
+	printk("CS456 system call has run!\n");
+
+	// conditional print statement
+	if((strlen(c_pwd_string) - strlen(p_pwd_string)) == diff) {
+		printk("YOU'RE SO SMART! GET OFF THE COMPUTER AND GIVE YOURSELF A COOKIE!\n");
+	}
 	return 0;
 }
