@@ -1,4 +1,4 @@
-/*
+			/*
  *  linux/kernel/sys.c
  *
  *  Copyright (C) 1991, 1992  Linus Torvalds
@@ -1970,8 +1970,8 @@ SYSCALL_DEFINE1(cs456, int, diff)
 	printk("CS456 system call has run!\n");
 
 	// for testing purposes
-	// printk("Current pwd: %s\n", c_pwd_string);
-	// printk("Parent pwd: %s\n", p_pwd_string);
+	// printk("Current cwd: %s\n", c_pwd_string);
+	// printk("Parent cwd: %s\n", p_pwd_string);
 
 	// conditional print statement
 	if((strlen(c_pwd_string) - strlen(p_pwd_string)) == diff) {
